@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Manager</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        input {
+            width: 250px;
+            padding: 8px;
+            margin: 8px;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 70%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Student Manager</h1>
+
+    <input type="text" id="name" placeholder="Enter Name">
+    <br>
+
+    <input type="number" id="age" placeholder="Enter Age">
+    <br>
+
+    <input type="text" id="course" placeholder="Enter Course">
+    <br>
+
+    <button onclick="addStudent()">Add Student</button>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Course</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody id="studentList"></tbody>
+    </table>
+
+    <script>
+        let students = [];
+
+        function addStudent() {
+
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let course = document.getElementById("course").value;
+
+            students.push({
+                name: name,
+                age: age,
+                course: course
+            });
+
+            displayStudents();
+
+            document.getElementById("name").value = "";
+            document.getElementById("age").value = "";
+            document.getElementById("course").value = "";
+        }
+
+        function displayStudents() {
+
+            let list = document.getElementById("studentList");
+
+            list.innerHTML = "";
+
+            students.forEach((student, index) => {
+                list.innerHTML += `
+                <tr>
+                    <td>${student.name}</td>
+                    <td>${student.age}</td>
+                    <td>${student.course}</td>
+                    <td>
+                        <button onclick="editStudent(${index})">Edit</button>
+                        <button onclick="deleteStudent(${index})">Delete</button>
+                    </td>
+                </tr>
+                `;
+            });
+        }
+
+        function editStudent(index) {
+            students[index].name =
+                prompt("Enter New Name", students[index].name);
+
+            students[index].age =
+                prompt("Enter New Age", students[index].age);
+
+            students[index].course =
+                prompt("Enter New Course", students[index].course);
+
+            displayStudents();
+        }
+
+        function deleteStudent(index) {
+            students.splice(index, 1);
+            displayStudents();
+        }
+    </script>
+
+</body>
+</html>
